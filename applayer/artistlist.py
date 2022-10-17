@@ -9,12 +9,14 @@ class ArtistList(object):
     The ArtistList class consists of two attributes:
         * __artist_objects: List[Artist] (must be Artist objects)
         * __artists: List[Tuple[int, str]] (ex. [(1141480, Alcoa Quartet), (1141491, Alfred G. Karnes)]
+          this list must be sorted
     """
     @dispatch(list)
     def __init__(self, ids: List[int]):
         """
         The constructor uses data in mongo to create attributes based on the input ids list;
-        Use a Mongobridge object to pull data from the Mongo database
+        Use a Mongobridge object to pull data from the Mongo database; the artists attribute
+        must be a sorted list.
         """
         pass
 
@@ -22,7 +24,7 @@ class ArtistList(object):
     def __init__(self):
         """
         Read all of the data from mongo and attributes for all artists; See comment at head of the
-        class;
+        class; the artists attribute must be a sorted list.
         Use a Mongobridge object to pull data from the Mongo database
         """
         pass
