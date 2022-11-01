@@ -67,8 +67,11 @@ class Artist(object):
     @level.setter
     def level(self, lev: int) -> None:
 
-        self.__level: int = lev
-
+        # ensure input conforms to desired type and value range
+        if(lev < 0):
+            self.__level: int = abs(lev)
+        else:
+            self.__level: int = lev
     def __str__(self) -> str:
         """
         Prints an artist name and artist ID

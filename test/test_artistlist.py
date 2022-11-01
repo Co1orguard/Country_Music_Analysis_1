@@ -47,6 +47,12 @@ class TestArtistList(TestCase):
         self.assertEqual("Irma Frost", artists.artists[1][1])
         self.assertEqual("Kahle Brewer", artists.artist_objects[1].artistName)
 
+    def test_allartists_objects(self):
+        a0 = next(item for item in self.allartists.artist_objects if item.artistID == 1826136)
+        self.assertEqual("Stephen Tarter", a0.artistName)
+        a0 = next(item for item in self.allartists.artist_objects if item.artistID == 5766040)
+        self.assertEqual("Jim Seany", a0.artistName)
+
     @staticmethod
     def isSorted(x, key=lambda x: x):
         return all([key(x[i]) <= key(x[i + 1]) for i in range(len(x) - 1)])

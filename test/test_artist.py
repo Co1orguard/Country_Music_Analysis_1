@@ -58,6 +58,20 @@ class TestArtist(TestCase):
         }
         self.artist_3 = Artist(testdata_3)
 
+        testdata_4 = {
+            "_id": {
+                "$oid": "630173f08346c99bd3d978b7"
+            },
+            "artistID": "603612",
+            "artistName": 123,
+            "realname": 123,
+            "profile": 123,
+            "collaborators": [],
+            "level": -1
+        }
+
+        self.artist_4 = Artist(testdata_4)
+
     def test_collaborators(self):
         self.assertEqual(2, len(self.artist_2.collaborators))
         self.assertEqual(0, len(self.artist_3.collaborators))
@@ -93,3 +107,17 @@ class TestArtist(TestCase):
         self.artist_1.level = 5
 
         self.assertEqual(5, self.artist_1.level)
+
+    def test_edge_cases(self):
+
+        # test whether our setter will accept negative numbers and mishandle the edge case
+        self.artist_1.level = -1
+        self.assertNotEqual(-1, self.artist_1.level)
+
+        # ensure all string designated input is of type string
+
+        self.assertFalse(isinstance(self.artist_4.artistID, int))
+        self.assertFalse(isinstance(self.artist_4.artistName, str))
+        self.assertFalse(isinstance(self.artist_4.realName, str))
+        self.assertFalse(isinstance(self.artist_4.profile, str))
+        self.assertFalse(self.artist_4.level >= 0)
