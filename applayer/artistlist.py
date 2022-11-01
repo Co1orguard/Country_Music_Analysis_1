@@ -11,6 +11,7 @@ class ArtistList(object):
         * __artists: List[Tuple[int, str]] (ex. [(1141480, Alcoa Quartet), (1141491, Alfred G. Karnes)]
           this list must be sorted
     """
+
     @dispatch(list)
     def __init__(self, ids: List[int]):
         """
@@ -18,8 +19,21 @@ class ArtistList(object):
         Use a Mongobridge object to pull data from the Mongo database; the artists attribute
         must be a sorted list.
         """
-        pass
 
+        self.__artist_objects = []
+        self.__artists = []
+
+        self.__bridgeObject = MongoBridge()
+
+        for artistDictionary in self.__bridgeObject.get_artists_from_list(ids):
+            self.__artist_objects.append(Artist(artistDictionary))
+
+
+        for artistObject in self.__artist_objects:
+            dataPair = (artistObject.artistID, artistObject.artistName)
+            self.__artists.append(dataPair)
+
+        self.__artists.sort(key=lambda x: x[1])
     @dispatch()
     def __init__(self):
         """
@@ -27,15 +41,25 @@ class ArtistList(object):
         class; the artists attribute must be a sorted list.
         Use a Mongobridge object to pull data from the Mongo database
         """
-        pass
 
+        self.__artist_objects = []
+        mongo = MongoBridge()
+        for artist in mongo.get_all_artists():
+            self.__artist_objects.append(Artist(artist))
+
+        self.__artists = []
+        for artist in self.__artist_objects:
+            tup = (artist.artistID, artist.artistName)
+            self.__artists.append(tup)
+
+        self.__artists.sort(key=lambda x: x[1])
     @property
     def artists(self) -> List[Tuple[int, str]]:
         """
         Returns the list of artists as list of tuples of (artistid: int, name: str)
         :return: list of artists
         """
-        pass
+        return self.__artists
 
     @property
     def artist_objects(self) -> List[Artist]:
@@ -43,7 +67,7 @@ class ArtistList(object):
         Returns the list of Artist objects
         :return:
         """
-        pass
+        return self.__artist_objects
 
     def __str__(self) -> str:
         """
@@ -53,4 +77,10 @@ class ArtistList(object):
         the Artist class
         :return: str
         """
-        pass
+        self.__returnList = ""
+        for i, element in enumerate(self.__artist_objects):
+            if (i == len(self.artist_objects)-1):
+                self.__returnList += ("{} ({})".format(element.artistName, element.artistID))
+            else:
+                self.__returnList += ("{} ({}), ".format(element.artistName, element.artistID))
+        return self.__returnList

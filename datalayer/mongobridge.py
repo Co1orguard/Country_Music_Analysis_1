@@ -12,14 +12,18 @@ class MongoBridge(object):
         """
         Connects to the uri server, db database, and the col collection
         """
-        pass
+        self.__mongoClient = pymongo.MongoClient(uri)
+
+        self.__myCollection = self.__mongoClient[db][col]
 
     @dispatch()
     def __init__(self):
         """
         Connects to the mongo server, BristolData database, and the Artists collection
         """
-        pass
+        self.__mongoClient = pymongo.MongoClient("mongodb://localhost:27017/")
+
+        self.__myCollection = self.__mongoClient["BristolData"]["Artists"]
 
     def get_all_artists(self) -> List[dict]:
         """
@@ -35,8 +39,13 @@ class MongoBridge(object):
         See the test_artist.py for an example
         :return: list of the dictionaries returned from mongo
         """
-        pass
+        result: List[dict] = []
+        artists = self.__myCollection.find()
 
+        for a in artists:
+            result.append(a)
+
+        return result
     def get_artists_from_list(self, a_list: list[int]) -> List[dict]:
         """
         Get artists using the id list from the database/collection
@@ -51,7 +60,12 @@ class MongoBridge(object):
         See the test_artist.py for an example
         :return: list of the dictionaries returned from mongo
         """
-        pass
+        result: List[dict] = []
+
+        for a in a_list:
+            mongo_filter = {"artistID": a}
+            result.append(self.__myCollection.find_one(mongo_filter))
+        return result
 
     def get_artist_by_id(self, aid: int) -> dict:
         """
@@ -68,4 +82,7 @@ class MongoBridge(object):
         :param aid: artist id
         :return: dictionary with artist info
         """
-        pass
+        mongo_filter = {"artistID": aid}
+        artists = self.__myCollection.find_one(mongo_filter)
+
+        return artists

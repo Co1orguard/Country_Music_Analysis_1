@@ -17,7 +17,8 @@ class TestArtistList(TestCase):
         # Assuming the list is sorted, the following will be true
         self.assertEqual("B.F. Shelton", self.artists.artists[2][1])
         self.assertEqual("Jimmie Rodgers", self.artists.artists[16][1])
-
+        self.assertEqual("Hattie Stoneman", self.artists.artists[11][1])
+        self.assertEqual(1448909, self.artists.artists[11][0])
     def test_artists(self):
         # There should be 179 artists in the list
         self.assertEqual(179, len(self.allartists.artists))
@@ -26,11 +27,14 @@ class TestArtistList(TestCase):
         # Assuming the list is sorted, the following will be true
         self.assertEqual("A. P. Carter", self.allartists.artists[0][1])
         self.assertEqual("Alice Palmer", self.allartists.artists[3][1])
+        self.assertEqual("Bill Halley", self.allartists.artists[10][1])
+        self.assertEqual(597597, self.allartists.artists[10][0])
 
     def test_artists_objects(self):
         objs = self.artists.artist_objects
         self.assertEqual(1141486, objs[2].artistID)
         self.assertEqual("Irma Frost", objs[2].artistName)
+        self.assertEqual("Irma Lee \"Jackie\" (Frost) Smith", objs[2].realName)
         self.assertEqual(1, len(objs[2].collaborators))
 
     def test_print(self):
@@ -39,6 +43,8 @@ class TestArtistList(TestCase):
         outstring = "Ernest Stoneman (938895), Kahle Brewer (2634203), Irma Frost (1141486)"
         self.assertEqual(outstring, artists.__str__())
         self.assertEqual("Ernest Stoneman", artists.artists[0][1])
+        self.assertEqual(938895, artists.artists[0][0])
+        self.assertEqual("Irma Frost", artists.artists[1][1])
         self.assertEqual("Kahle Brewer", artists.artist_objects[1].artistName)
 
     @staticmethod
