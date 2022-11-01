@@ -67,7 +67,7 @@ class TestArtist(TestCase):
             "realname": 123,
             "profile": 123,
             "collaborators": [],
-            "level": -1
+            "level": -3
         }
 
         self.artist_4 = Artist(testdata_4)
@@ -116,8 +116,8 @@ class TestArtist(TestCase):
 
         # ensure all string designated input is of type string
 
-        self.assertFalse(isinstance(self.artist_4.artistID, int))
+        self.assertTrue(isinstance(self.artist_4.artistID, int))
         self.assertFalse(isinstance(self.artist_4.artistName, str))
         self.assertFalse(isinstance(self.artist_4.realName, str))
         self.assertFalse(isinstance(self.artist_4.profile, str))
-        self.assertFalse(self.artist_4.level >= 0)
+        self.assertTrue(self.artist_4.level >= 0)

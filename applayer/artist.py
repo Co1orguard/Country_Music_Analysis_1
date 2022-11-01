@@ -10,12 +10,12 @@ class Artist(object):
         Takes a mongodb dictionary from the Artist collection and creates an Artist object
         :param raw_in: dictionary based on schema from mongo database
         """
-        self.__artistID = raw_in["artistID"]
+        self.__artistID = abs(int(raw_in["artistID"]))
         self.__artistName = raw_in["artistName"]
         self.__realname = raw_in["realname"]
         self.__profile = raw_in["profile"]
         self.__collaborators = raw_in["collaborators"]
-        self.__level = raw_in["level"]
+        self.__level = abs(raw_in["level"])
 
     @dispatch(int, str, str, str, int)
     def __init__(self, aid: int, name: str, real_name: str, profile: str, level: int):
@@ -27,12 +27,12 @@ class Artist(object):
         :param profile: artist profile
         :param level: artist level
         """
-        self.__artistID: int = aid
+        self.__artistID: int = abs(aid)
         self.__artistName: str = name
         self.__realname: str = real_name
         self.__collaborators = None
         self.__profile: str = profile
-        self.__level: int = level
+        self.__level: int = abs(level)
 
     @property
     def artistID(self) -> int:
